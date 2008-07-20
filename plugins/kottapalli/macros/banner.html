@@ -1,0 +1,9 @@
+$def with ()
+
+$ issue = get_current_issue()
+
+$if issue:
+    $ ym = issue.key.strip('/').split('/')
+    <div id="banner"><img class="logo" src="/static/images/${ym[0]}/${ym[1]}/banner.gif" width="900" alt="logo" title="logo" /></div>
+$else:
+    <div id="banner"><img class="logo" src="/static/images/banner.gif" width="900" alt="logo" title="logo" /></div>

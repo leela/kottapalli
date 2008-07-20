@@ -1,0 +1,6 @@
+$def with (category)
+
+$var title: $category.name
+
+$for article in category.articles:
+    <hr/>$:thingrepr(article)

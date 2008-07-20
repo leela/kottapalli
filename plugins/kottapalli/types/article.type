@@ -1,0 +1,64 @@
+[{ 
+    'create': 'unless_exists', 
+    'key': '/type/article', 
+    'type': '/type/type', 
+    'name': 'article', 
+    'properties': [
+        property("/type/article", "title", "/type/string", True),
+        property("/type/article", "intro", "/type/text", True),
+        property("/type/article", "body", "/type/text", True),
+        {
+        'create': 'unless_exists',
+        'key': '/type/article/category',
+        'name': 'category',
+        'type': '/type/property',
+        'expected_type': {
+            'create': 'unless_exists',
+            'key': '/type/category',
+            'type': '/type/type',
+            'name': 'category',
+            'properties': [
+                property("/type/category", "name", "/type/string", True)
+            ],
+            'backreferences': [
+               backreference('/type/category', 'articles', '/type/article', 'category')
+            ]
+        },
+        'unique': True
+    },{
+        'create': 'unless_exists',
+        'key': '/type/article/issue',
+        'name': 'issue',
+        'type': '/type/property',
+        'expected_type': {
+            'create': 'unless_exists',
+            'key': '/type/issue',
+            'type': '/type/type',
+            'name': 'issue',
+            'properties': [
+                property("/type/issue", "name", "/type/string", True),
+                property("/type/issue", "published", "/type/boolean", True)
+            ],
+            'backreferences':[
+                backreference('/type/issue', 'articles', '/type/article', 'issue')
+            ]
+        },
+        'unique': True
+    }] 
+}, {
+    'create': 'unless_exists',
+    'key': '/type/comment',
+    'type': '/type/type',
+    'name': 'comment',
+    'properties': [
+        property("/type/comment", "author", "/type/string", True),
+        property("/type/comment", "comment", "/type/text", True),
+        property("/type/comment", "article", "/type/article", True)
+    ]
+}, {
+    'key': '/type/article',
+    'backreferences': {
+        'connect': 'update_list',
+        'value': [backreference('/type/article', 'comments', '/type/comment', 'article')]
+        } 
+    }]

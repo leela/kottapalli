@@ -1,0 +1,67 @@
+$def with (msg="", pass=False)
+
+$var title: Upload File
+<script type="text/javascript">
+    function validate(form){
+        if (form.myfile.value == ""){
+           document.getElementById('msg').innerHTML = 'Please select a file to upload';
+            return false;
+            }
+    }
+</script>
+</head>
+<body>
+    <form method="POST" enctype="multipart/form-data" action="" onsubmit="return validate(this)" >
+    $if pass:
+        $ msg_style = "style='color:green'"
+    $else:
+        $ msg_style = "style='color:red'"
+    
+    $ issues = get_issues() + get_issues(published=False)
+    
+    <div id="msg" $:msg_style > $msg </div> 
+    </br>
+    <table>
+    <tr>
+        <td>issue</td>
+        <td>
+        <select name="fileIssue">
+        $for i in issues:
+            <option value="$i.key">$i.name</option>
+        </select>    
+        </td>
+    </tr>
+    <tr>
+        <td>File type</td>
+        <td>
+        <select name="fileType">
+            <option value="music">Audio file</option>
+            <option value="images">Image file</option>
+        </select>
+        </td>
+    </tr>
+    <tr>
+        <td>File</td>
+        <td><input type="file" name="myfile" /><br/></td>
+    </tr>
+    <tr>
+    <td><input type="checkbox" name="overwrite" value="1"></input></td>
+    <td>Overwrite if the file already exists</td>
+    </tr>
+    <tr>
+    <td><input type="submit" value='Upload'/></td>
+    </tr>
+    </table>
+    </form>
+<div id="audio">
+<b>Existind audio files...</b><br/>
+$for issue in issues:
+    <a href="/static/music${issue.key}/">$issue.name</a><br/>
+</div>
+<div id="images">
+<b>Existind image files ...</b><br/>
+$for issue in issues:
+    <a href="/static/images${issue.key}/">$issue.name</a><br/>
+</div>
+</body>
+</html>

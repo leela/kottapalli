@@ -1,0 +1,27 @@
+$def with (name, float="right")
+  
+
+$if float == "right":
+    $ margin = "margin-left: 10px"
+    $ width = "250px"
+$elif float == "left":
+    $ margin = "margin-right: 10px"
+    $ width = "250px"
+$elif float == "thumb":
+    $ margin = "margin-right: 10px"
+    $ width = "40px"
+    $ float = "right"
+$else:
+    $ margin = "margin: 10px 25px 10px 25px"
+    $ width = "500px"
+
+$ issue = get_current_issue()
+
+$if issue:
+    $ path = "/static/images" + issue.key + "/" + name
+$else:
+    $ path = "/static/images/common/" + name
+
+<div style="border: 2px solid #dddddd; float: $float; $margin; width: $width"> 
+<img src="$path" alt="Image not found" width="$width"/>
+</div>

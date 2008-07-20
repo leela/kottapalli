@@ -1,0 +1,102 @@
+$def with (page)
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="verify-v1" content="kDwD0f2P1DxMRwCgqDNLtoHr8CAVjf0RwN6xPgwYv2w=" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+<title>$page.title (కొత్తపల్లి)</title>
+<script type="text/javascript" src="/static/js/jquery/jquery.js"></script>
+
+<link href="/static/css/pastel.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/menu.css" rel="stylesheet" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="కొత్తపల్లి ఫీడు" href="/feed" feed=rss/>
+$for s in ctx.stylesheets:
+    <link rel="stylesheet" type="text/css" href="$s">
+
+$for jsurl in ctx.javascripts:
+    <script type="text/javascript" src="$jsurl"></script>
+
+<!--[if lt IE 8]>
+
+<style type="text/css" media="screen">
+
+#menuh{float:none;}
+
+body{behavior:url(csshover.htc); font-size:75%;}
+
+#menuh ul li{float:left; width: 100%;}
+
+#menuh a{height:1%;font:bold 1.1em/1.4em helvetica, arial, sans-serif;}
+
+</style>
+
+<![endif]-->
+
+ 
+
+</head>
+<body>
+
+<div id="container">
+    $:macros.banner()    
+    <!-- Begin CSS Horizontal Popout Menu -->
+    <div id="menuh-container">
+
+    <div id="menuh">
+        $:macros.headermenu()
+    </div>
+
+    <!-- End CSS Horizontal Popout Menu -->
+
+<div id="sidebar">
+    $:macros.leftsidebar()
+</div>
+
+<div id="sidebar-b">
+    $:macros.rightsidebar()
+</div>
+
+<div id="content">
+    <script>
+        function change_font_size(size) {
+            \$("#content").css("font-size", size);
+            return false; 
+        }
+    </script>
+
+    <div id="fontbar" style="font-size: 14px; float: right;">
+        <a style="font-size: 12px" href="#" onclick="return change_font_size('12px');">అ</a>
+        <a style="font-size: 14px" href="#" onclick="return change_font_size('14px');">అ</a>
+        <a style="font-size: 16px" href="#" onclick="return change_font_size('16px');">అ</a>
+        <a style="font-size: 18px" href="#" onclick="return change_font_size('18px');">అ</a>
+        <a style="font-size: 20px" href="#" onclick="return change_font_size('20px');">అ</a>
+        <a style="font-size: 22px" href="#" onclick="return change_font_size('22px');">అ</a>
+    </div>
+    <br/>
+    <br/>
+
+
+$if ctx.error:
+    <p class="error"><pre>$ctx.error</pre></p>
+
+$if ctx.user:
+    <form name='logout' action="$homepath()/account/logout" method='POST'></form>
+    <div id="login" style="float: right">
+        స్వాగతం $ctx.user.displayname 
+        | <a href="#" onclick="document.forms['logout'].submit()">Logout</a>
+    </div> 
+
+
+<h1>$page.title</h1>
+
+$:page
+<br style="clear: both"/>
+</div>
+<div style="clear:both"> </div>
+<div id="footer"><a href="/contact">Contact Us</a> | Design by <a href="http://www.mitchinson.net">Denise Mitchinson</a></div>
+ </div>
+</div>
+ </body>

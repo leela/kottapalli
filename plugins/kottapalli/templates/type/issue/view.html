@@ -1,0 +1,6 @@
+$def with (issue)
+
+$var title: $issue.name
+
+$for art in issue.articles:
+    <hr/> $:thingrepr(art)

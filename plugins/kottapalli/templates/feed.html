@@ -1,0 +1,27 @@
+$def with (site)
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:media="http://search.yahoo.com/mrss"
+    >
+    <channel>
+     <title>కొత్తపల్లి</title>
+     <link>$site</link>
+     <description>తెలుగు పిల్లల (e)మాసపత్రిక</description>
+     <lastBuildDate>Wed, 07 May 2008 15:41:41 GMT</lastBuildDate>
+     <generator>infogami</generator>
+     <language>te</language>
+      $ issues = get_issues()
+      $if issues:
+        $for article in issues[0].articles:
+            <item>
+                <title>$article.title</title>
+                <link>$site$article.key</link>
+                <pubDate>Wed, 07 May 2008 06:09:03 +0000</pubDate>
+                <description>$macros.getIntro(article)</description>
+            </item>
+    </channel>
+</rss>

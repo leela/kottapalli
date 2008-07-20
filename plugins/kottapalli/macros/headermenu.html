@@ -1,0 +1,11 @@
+$def with ()
+$ issues = get_issues()
+
+<div style="padding: 5px">
+    <div style="float: left; text-align: left;"><a href="/మా గురించి">కార్యబృందం
+</a></div>
+    <div style="float: right; text-align: right;">నిర్వహణ: <a href="http://timbaktu.org">టింబక్టు కలెక్టివ్</a>, చెన్నేకొత్తపల్లి</div>
+    $if issues:    
+        <div style="margin:0 auto;width:300px; text-align: center;"> $issues[0].name </div>
+
+</div>

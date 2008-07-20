@@ -1,0 +1,13 @@
+$def with ()
+$ issues = get_issues()
+<b>సంచికలు</b><br/>
+
+$for i in issues:
+    $if i == get_current_issue():
+        <b style="color : #5D7775;">$i.name </b><br/>
+    $else:
+        <a href="${i.key}/welcome">$i.name</a><br/>
+<br/>
+<div class="ads">
+$:macros.notes("")
+</div>
