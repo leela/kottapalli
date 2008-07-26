@@ -1,5 +1,5 @@
 import web
-from infogami.utils import delegate
+from infogami.utils import delegate, types
 from infogami.utils.storage import OrderedDict
 from infogami.utils.template import render
 from infogami.utils.view import public, thingview
@@ -7,6 +7,9 @@ from infogami import config
 
 import re
 import os
+
+types.register_type('^/[0-9][0-9][0-9][0-9]/[0-9][0-9]$',  '/type/issue')
+types.register_type('^/[0-9][0-9][0-9][0-9]/[0-9][0-9]/.*$',  '/type/article')
 
 @public
 def getPlainText(text):
@@ -164,3 +167,7 @@ class download(delegate.page):
             print data
         else:
             web.notfound()
+
+# disable register
+del delegate.pages['/account/register']
+
