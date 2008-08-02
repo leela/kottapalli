@@ -1,0 +1,8 @@
+To get all the pages from old infogami we have to know all the wiki pages.
+This code returns the file with all the page names.
+
+How to use this code ...
+
+python kp_links.py filename_to_keep_all_pathnames
+ex : 
+python kp_links.py paths.txt
