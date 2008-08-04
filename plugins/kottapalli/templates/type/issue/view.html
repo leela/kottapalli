@@ -2,5 +2,11 @@ $def with (issue)
 
 $var title: $issue.name
 
-$for art in issue.articles:
-    <hr/> $:thingrepr(art)
+$ categories = categorize_articles(issue.articles)
+$for cat, articles in categories.items():
+    $for article in articles:
+        <h2><a href="$article">$article.title</a></h2>
+        $:macros.getIntro(article)
+        <small><a title="పూర్తిగా చదవడానికి క్లిక్ చేయండి " href="$article.key">పూర్తిగ&gt;&gt;</a>  
+        <a href="$article.key/#comments">$:len(article.comments) వ్యాఖ్యలు</a></small>
+        <hr/>

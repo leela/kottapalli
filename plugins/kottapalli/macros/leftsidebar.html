@@ -1,10 +1,21 @@
 $def with ()
 
+<div class="menu">
+<ul>
+    <li><a href="/">మొదటి పేజీ</a></li> 
+    <li><a href="/help/fonts">Font Help</a></li> 
+</ul>
+</div>
+
 $ issue = get_current_issue()
 
 $if issue:
     $ categories = categorize_articles(issue.articles)
     $for cat, articles in categories.items():
-        <b>$cat</b><br/>
-            $for a in articles:
-                <a href="$a.key">$a.title</a><br/>
+        <h1>$cat</h1>
+        <div class="menu">
+        <ul>
+        $for a in articles:
+            <li><a href="$a.key">$a.title</a></li>
+        </ul>
+        </div>

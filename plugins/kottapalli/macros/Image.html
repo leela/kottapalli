@@ -1,5 +1,7 @@
 $def with (name, float="right")
-  
+
+<!-- close earlier p tag, if there is any. div is not allowed inside p -->
+</p>  
 
 $if float == "right":
     $ margin = "margin-left: 10px"
@@ -23,5 +25,5 @@ $else:
     $ path = "/static/images/common/" + name
 
 <div style="border: 2px solid #dddddd; float: $float; $margin; width: $width"> 
-<img src="$path" alt="Image not found" width="$width"/>
+<img src="$path" width="$width" />
 </div>

@@ -1,6 +1,9 @@
 $def with ()
 
 $ issue = get_current_issue()
+$if not issue:
+    $ issues = get_issues()
+    $ issue = (issues and issues[0]) or None
 
 $if issue:
     $ ym = issue.key.strip('/').split('/')

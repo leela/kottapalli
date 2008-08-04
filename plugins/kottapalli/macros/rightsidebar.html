@@ -1,13 +1,43 @@
 $def with ()
-$ issues = get_issues()
-<b>సంచికలు</b><br/>
 
-$for i in issues:
-    $if i == get_current_issue():
-        <b style="color : #5D7775;">$i.name </b><br/>
-    $else:
-        <a href="${i.key}/welcome">$i.name</a><br/>
-<br/>
-<div class="ads">
-$:macros.notes("")
+$ issues = get_issues(published=True)
+
+<div id = "rightsidebar">
+
+ <div class="menu">
+  <ul>
+  <li><a href="/మా గురించి">మా గురించి</a></li>
+  <li><a href="mailto:team@kottapalli.in">సంప్రదించండి</a></li>
+  </ul>
+
+  <b>సంచికలు</b><br/>
+  <ul id="issues">
+  $for i in issues:
+      $if i == get_current_issue():
+          <li><b>$i.name</b></li>
+      $else:
+          <li><a href="${i.key}/welcome">$i.name</a></li>
+  </ul>
+ </div>
+
+ <div class="ads">
+ $:macros.notes("")
+ </div>
+
+$if ctx.user:
+    $ issues = get_issues(published=False)
+    <div class="menu">
+        <b>అప్రచురిత సంచికలు</b><br/>
+        <ul>
+        $for issue in issues:
+            <li><a href="$issue.key">$issue.name</a></li>
+         </ul>
+    </div>
+
+$if not ctx.user:
+    <div class="menu">
+       <b>Admin</b><br/>
+        <a href="/account/login">Login</a>
+    </div>
+
 </div>

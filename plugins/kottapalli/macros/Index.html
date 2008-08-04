@@ -1,0 +1,13 @@
+$def with ()
+
+$ issue = get_current_issue()
+
+$ categories = categorize_articles(issue.articles)
+$for cat, articles in categories.items():
+    $for article in articles:
+        $if article.intro:
+            <h2><a href="$article">$article.title</a></h2>
+            $:format(article.intro)
+            <small><a title="పూర్తిగా చదవడానికి క్లిక్ చేయండి " href="$article.key">పూర్తిగా చదవండి</a>  
+            (<a href="$article.key/#comments">$:len(article.comments) వ్యాఖ్యలు</a></small>)
+            <hr/>

@@ -1,8 +1,11 @@
 $def with (article)
 
 <i><a href="$article">$article.title</a></i>
+
+$if not article.intro:
     <p>$:getPlainText(string_slice(article.body, 100))....</p>
-    <small><a title="పూర్తిగా చదవడానికి క్లిక్ చేయండి " href="$article.key">పూర్తిగ&gt;&gt;</a>  
-    <a href="$article.key/#comments">$:len(article.comments) వ్యాఖ్యలు</a></small>
+$else:
+    <p>$article.intro</p>
 
-
+<small><a title="పూర్తిగా చదవడానికి క్లిక్ చేయండి " href="$article.key">పూర్తిగ&gt;&gt;</a>  
+<a href="$article.key/#comments">$:len(article.comments) వ్యాఖ్యలు</a></small>

@@ -1,0 +1,7 @@
+$def with ()
+
+$ issues = get_issues()
+$if issues:
+    <h2 style="text-align:center;">  
+    <a href="${issues[0].key}/welcome">$issues[0].name   సంచిక చదవండి</a>
+    </h2>
