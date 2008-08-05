@@ -5,6 +5,8 @@ from BeautifulSoup import BeautifulSoup
 import urllib2, urllib
 import trans
 from te import d as telugu
+import re
+import utils
 import os
 
 site = "http://kottapalli.in"
@@ -36,7 +38,7 @@ def save(path, subUrl):
 def convert_links(data, subUrl):
 	soup = BeautifulSoup(data)
 	for a in soup.findAll('a'):
-		if a['href'].startswith(subUrl) or a['href'] == '/':
+		if re.match(subUrl, a['href']) or a['href'] == '/':
 		    a['href'] = urls[a['href']]
 	return str(soup).replace('/static/', 'static/')
 
@@ -53,15 +55,22 @@ def save_url(url):
 	else:    
 		urls[url] = trans.itrans_string(url.replace('/', '_'), trans.dicToUnicode(telugu)) + ".html"
 
-def main(subUrl):
-	save_url('/')
+def get_issue(subUrl):
 	links = get_urls(get_page(subUrl), subUrl)
 	for u in links:
 		save_url(u)
-	save('/', subUrl)
 	for u in set(links):
             if should_save(u):
-		save(u, subUrl)
+		save(u, '/\d{4}/\d{2}')
+
+def main(issues):
+    save_url('/')
+    links = get_urls(get_page('/'), '/')
+    for u in links:
+        save_url(u)
+    save('/', subUrl='/')
+    for i in issues:
+        get_issue(i)
 
 def encrypt(string):
     """
@@ -86,4 +95,4 @@ import sys
 """
 Input should be in montyear format(/2008/07)
 """
-main(sys.argv[1])
+main(sys.argv[1:])
