@@ -53,7 +53,7 @@ def save_url(url):
 	if url == '/':
 		urls[url] = "index.html"
 	else:    
-		urls[url] = trans.itrans_string(url.replace('/', '_'), trans.dicToUnicode(telugu)) + ".html"
+		urls[url] = trans.itrans_string(url.lstrip('/').replace('/', '_'), trans.dicToUnicode(telugu)) + ".html"
 
 def get_issue(subUrl):
 	links = get_urls(get_page(subUrl), subUrl)
