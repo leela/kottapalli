@@ -116,7 +116,6 @@ class addComment(delegate.page):
 
         web.ctx.site.write(query, comment='new comment')
 
-        """
         c = web.ctx.site.get(path)
         msg = render.comment_email(c)
         try:
@@ -124,7 +123,6 @@ class addComment(delegate.page):
         except:
             import traceback
             traceback.print_exc()
-        """
         web.seeother(i['article.key']+"#comments")
 
 """
