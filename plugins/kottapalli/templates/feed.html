@@ -14,13 +14,14 @@ $def with (site)
     <generator>infogami</generator>
     <language>te</language>
     $ issues = get_issues()
+    $ lastModified = feed_date_format(issues[0].last_modified)
     $if issues:
-        <lastBuildDate>$feed_date_format(issues[0].last_modified)</lastBuildDate>
+        <lastBuildDate>$lastModified</lastBuildDate>
             $for article in issues[0].articles:
                 <item>
                     <title>$article.title</title>
                     <link>$site$article.key</link>
-                    <pubDate>Wed, 07 May 2008 06:09:03 +0000</pubDate>
+                    <pubDate>$lastModified</pubDate>
                     <description>$macros.getIntro(article)</description>
                 </item>
     </channel>

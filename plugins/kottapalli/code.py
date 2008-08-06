@@ -84,9 +84,7 @@ def sortComments(seq):
 @public
 def feed_date_format(timedate):
     import datetime
-    delta = datetime.timedelta(minutes=30, hours=5)
-    gmtTime = timedate - delta
-    ctime = gmtTime.ctime()
+    ctime = timedate.ctime()
     week, month, date, time, year = ctime.split()
     return week+', '+date+" "+month+" "+year+" "+time+" GMT"
 
