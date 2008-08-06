@@ -1,0 +1,21 @@
+$def with (site)
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+        <id>$site ;feed=atom</id>
+        <title>కొత్తపల్లి</title>
+        <link rel="alternate" type="text/html" href="$site"/>
+        <generator>infogami</generator>
+        <subtitle>తెలుగు పిల్లల (e)మాసపత్రిక</subtitle>
+        $ issues = get_issues()
+        $ lastModified = date_format(issues[0].last_modified, type="atom")
+        $if issues:
+            <updated>$lastModified</updated>
+            $for article in issues[0].articles:
+                <entry>
+                    <id>$site</id>
+                    <title>$article.title</title>
+                    <link rel="alternate" type="text/html" href="$site$article.key"/>
+                    <updated>$lastModified</updated>
+                    <summary type="html">$macros.getIntro(article)</summary>
+                </entry>
+</feed>

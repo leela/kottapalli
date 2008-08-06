@@ -12,7 +12,8 @@ $def with (page)
 
 <link href="/static/css/pastel.css" rel="stylesheet" type="text/css" />
 <link href="/static/css/menu.css" rel="stylesheet" type="text/css" />
-<link rel="alternate" type="application/rss+xml" title="కొత్తపల్లి ఫీడు" href="/feed" feed=rss/>
+<link rel="alternate" type="application/rss+xml" title="కొత్తపల్లి rss ఫీడు" href="/feed/rss" feed=rss"/>
+<link rel="alternate" type="application/atom+xml" title="కొత్తపల్లి atom ఫీడు" href="/feed/atom" feed=atom/>
 $for s in ctx.stylesheets:
     <link rel="stylesheet" type="text/css" href="$s">
 
@@ -101,4 +102,4 @@ $:page
  </div>
 </div>
  </body>
-</html>
+</head>

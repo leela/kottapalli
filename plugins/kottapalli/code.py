@@ -82,11 +82,11 @@ def sortComments(seq):
     return sorted(seq, key=lambda x:x['last_modified'])
 
 @public
-def feed_date_format(timedate):
+def date_format(timedate, type="rss"):
     import datetime
-    ctime = timedate.ctime()
-    week, month, date, time, year = ctime.split()
-    return week+', '+date+" "+month+" "+year+" "+time+" GMT"
+    if type == "atom":
+        return timedate.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return timedate.strftime("%a, %d %b %Y %H:%M:%S GMT")
 
 def get_random_string():
     import string
@@ -156,8 +156,12 @@ class upload(delegate.page):
             return render.upload(msg, True)
 
 class feed(delegate.page):
-    def GET(self):
-        print render.feed(web.ctx.home)
+    path = "/feed/(.*)"
+    def GET(self, path):
+        if path == 'atom':
+            print render.atomfeed(web.ctx.home)
+        else:
+            print render.rssfeed(web.ctx.home)
 
 class download(delegate.page):
     """Enable download of static files 

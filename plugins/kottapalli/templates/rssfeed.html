@@ -14,7 +14,7 @@ $def with (site)
     <generator>infogami</generator>
     <language>te</language>
     $ issues = get_issues()
-    $ lastModified = feed_date_format(issues[0].last_modified)
+    $ lastModified = date_format(issues[0].last_modified)
     $if issues:
         <lastBuildDate>$lastModified</lastBuildDate>
             $for article in issues[0].articles:
