@@ -82,10 +82,10 @@ def sortComments(seq):
     return sorted(seq, key=lambda x:x['last_modified'])
 
 @public
-def feed_date_format(date):
+def feed_date_format(timedate):
     import datetime
     delta = datetime.timedelta(minutes=30, hours=5)
-    gmtTime = date - delta
+    gmtTime = timedate - delta
     ctime = gmtTime.ctime()
     week, month, date, time, year = ctime.split()
     return week+', '+date+" "+month+" "+year+" "+time+" GMT"
