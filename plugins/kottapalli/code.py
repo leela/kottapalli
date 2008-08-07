@@ -156,10 +156,9 @@ class upload(delegate.page):
             return render.upload(msg, True)
 
 class feed(delegate.page):
-    path = "/feed/(.*)"
-    def GET(self, path):
-        print >> web.debug, "Here we r"
-        if path == 'atom':
+    def GET(self):
+        type = web.input().get('type', '')
+        if type == 'atom':
             print render.atomfeed(web.ctx.home)
         else:
             print render.rssfeed(web.ctx.home)
