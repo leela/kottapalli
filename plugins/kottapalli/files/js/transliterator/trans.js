@@ -37,7 +37,7 @@
    realTime=(te_getCookie('teWikiTranslit')=="true")?true:false; 
  
    // add transliteration feature to search form
-   var commentForm = document.getElementById('newComment');
+   var commentForm = document.getElementById('commentForm');
    if( commentForm != null ) {
       var commentAuthor = document.getElementById('input_author');
       var comment = document.getElementById('input_comment');
