@@ -158,10 +158,15 @@ class upload(delegate.page):
 class feed(delegate.page):
     path = "/feed/(.*)"
     def GET(self, path):
+        print >> web.debug, "Here we r"
         if path == 'atom':
             print render.atomfeed(web.ctx.home)
         else:
             print render.rssfeed(web.ctx.home)
+
+class search(delegate.page):
+    def GET(self):
+        print render.site(render.searchResults(web.ctx.home))
 
 class download(delegate.page):
     """Enable download of static files 
