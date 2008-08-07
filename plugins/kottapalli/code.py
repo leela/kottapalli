@@ -42,6 +42,9 @@ def get_issues(published=True):
 def get_current_issue():
     import urllib
     path = urllib.unquote(web.ctx.path)
+    filter_path = re.match('(/\d{4}/\d{2})', path)
+    if filter_path:
+        path = filter_path.groups()[0]
     thing = web.ctx.site.get(path)
     if not thing:
         return None
@@ -181,6 +184,12 @@ class download(delegate.page):
             print data
         else:
             web.notfound()
+
+class test_print(delegate.page):
+    path = "(/\d{4}/\d{2})/print"
+    def GET(self, path):
+        issue = web.ctx.site.get(path)
+        print render.issue_print(issue)
 
 # disable register
 del delegate.pages['/account/register']

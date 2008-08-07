@@ -1,0 +1,44 @@
+$def with (issue)
+<html>
+<head>
+    <title>కొత్తపల్లి $issue.name</title>
+    <style type="text/css">
+        .article {
+            page-break-after: always; 
+            width: 900px;
+            clear: both;
+        }
+
+        h1 { 
+            text-align: center;
+        }
+        
+        .intro {
+            font-size: 0.8em;
+            font-style: italic;
+            border: 1px solid #dddddd;
+            padding: 5px;
+        }
+        .audio {
+            display: none;
+        }
+       .body {
+            clear: both;
+       }
+    </style>
+
+</head>
+<body>
+    <img src="/static/images$issue.key/banner.gif"></img>
+    $ categories = categorize_articles(issue.articles)
+    $for cat, articles in categories.items():
+        $for a in articles:
+            $if a.key != issue.key + '/download':
+                <div class="article">
+                    <h1>$a.title</h1>
+                    $if a.intro:
+                        <div class="intro">$:format(a.intro)</div>
+                    <div class="body">$:format(a.body)</div>
+                </div>
+</body>
+</html>
