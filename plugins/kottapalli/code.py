@@ -2,7 +2,7 @@ import web
 from infogami.utils import delegate, types
 from infogami.utils.storage import OrderedDict
 from infogami.utils.template import render
-from infogami.utils.view import public, thingview
+from infogami.utils.view import public, thingview, thingrepr
 from infogami import config
 
 import re
@@ -190,6 +190,15 @@ class test_print(delegate.page):
     def GET(self, path):
         issue = web.ctx.site.get(path)
         print render.issue_print(issue)
+
+class comments(delegate.page):
+    path = "(/\d{4}/\d{2})/comments"
+    def GET(self, path):
+        issue = web.ctx.site.get(path)
+        comments = []
+        for article in issue.articles:
+            comments.extend(article.comments)
+        return render.display_comments(issue, comments)
 
 # disable register
 del delegate.pages['/account/register']
