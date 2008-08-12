@@ -108,6 +108,11 @@ color : #666;
 background-color : #d9e1e5;
 }
 
+#submit_button {
+    display:block;
+    margin:0 auto;
+}
+
 #footer {
 clear : both;
 padding : 5px;
