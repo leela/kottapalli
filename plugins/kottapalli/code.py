@@ -4,6 +4,8 @@ from infogami.utils.storage import OrderedDict
 from infogami.utils.template import render
 from infogami.utils.view import public, thingview, thingrepr
 from infogami import config
+from telugu_months import months as te_months
+import datetime
 
 import re
 import os
@@ -74,19 +76,20 @@ def categorize_articles(articles):
 
     return res
 
-@public
-def month_convertion(string):
-    months = ['jan', 'feb', 'march', 'apr', 'may', 'june', 'july', 'aug', 'sept', 'oct', 'nov', 'dec']
+def month_conversion(string, months=te_months):
     y, m = string.strip('/').split('/')
-    return months[int(m)-1] + " "+y
+    return months[str(m)]+" "+str(y)
 
+def make_issue_key(month, year):
+    month = ''.join(['0' for i in range(2-len(str(month)))])+str(month)
+    return '/'+str(year)+'/'+month
+    
 @public
 def sortComments(seq):
     return sorted(seq, key=lambda x:x['last_modified'])
 
 @public
 def date_format(timedate, type="rss"):
-    import datetime
     if type == "atom":
         return timedate.strftime("%Y-%m-%dT%H:%M:%SZ")
     return timedate.strftime("%a, %d %b %Y %H:%M:%S GMT")
@@ -95,6 +98,22 @@ def get_random_string():
     import string
     import random
     return "".join(random.choice(string.letters + string.digits) for i in range(10))
+
+@public
+def next_issue_my(recentIssue):
+    """Returns a next issues month and year
+    """
+    y, m = recentIssue.strip('/').split('/')
+    nextIssue = datetime.datetime(int(y), int(m), 1) + datetime.timedelta(days=31)
+    return [nextIssue.month, nextIssue.year]
+
+@public
+def get_files(path):
+    path = os.path.join("static/", path.lstrip('/'))
+    try:
+        return os.listdir(path)
+    except OSError:
+        return []
 
 class addComment(delegate.page):
     def POST(self):
@@ -125,18 +144,6 @@ class addComment(delegate.page):
             import traceback
             traceback.print_exc()
         web.seeother(i['article.key']+"#comments")
-
-"""
-class home(delegate.page):  
-    path = '/'
-    def GET(self):
-        web.ctx.path = "/"
-        issues = get_issues()
-        if issues:
-            web.seeother(issues[0].key+"/welcome")
-        else:
-            return "Add new issue"
-"""
 
 class upload(delegate.page):
     path = "/admin/upload"
@@ -199,6 +206,109 @@ class comments(delegate.page):
         for article in issue.articles:
             comments.extend(article.comments)
         return render.display_comments(issue, comments)
+
+class issues_list(delegate.page):
+    path = '/dashboard'
+    def GET(self):
+        issues = get_objects('/type/issue')
+        return render.show_issues(issues)
+
+class articles_list(delegate.page):
+    path = '/dashboard(/\d{4}/\d{2})'
+    def GET(self, path):
+        issue = web.ctx.site.get(path)
+        if issue:
+            categories = categorize_articles(issue.articles)
+            articles = []
+            for a in categories.values():
+                articles.extend(list(a))
+            return render.show_articles(issue, articles)
+        else:
+            return ""
+
+class images_list(delegate.page):
+    path = '/dashboard(/\d{4}/\d{2})/images'
+    def GET(self, path):
+            issue = web.ctx.site.get(path)
+            images = get_files('images'+issue.key)
+            return render.show_images(issue, images)
+    def POST(self, path):
+        issue = web.ctx.site.get(path)
+        images = get_files('images'+issue.key)
+        x = web.input(image={}, overwrite=0)
+        file = '_'.join(x['image'].filename.lstrip('/').split())#Replace space with underscore
+        if not file:
+            return render.show_images(issue, images, 'Please select a file to upload')
+        dir_path = os.path.join('static/images', x['issue.key'].lstrip('/')) #Path is a directory where we save particular file. 
+        file_path = os.path.join(dir_path, file.lstrip('/'))
+        filedata = x['image'].value
+        if not os.path.isdir(dir_path):
+            os.makedirs(dir_path)
+        if not int(x['overwrite']) and os.path.isfile(file_path):
+            msg = "NOTE: File with this name already exists. Check overwrite and try again"
+            return render.show_images(issue, images, msg)
+        else:
+            f = open(file_path, 'w')
+            f.write(filedata)
+            f.close()
+            msg = "File is saved."
+            return web.seeother('/dashboard'+path+'/images')
+
+class audio_list(delegate.page):
+    path = '/dashboard(/\d{4}/\d{2})/audio'
+    def GET(self, path):
+            issue = web.ctx.site.get(path)
+            audios = get_files('music'+issue.key)
+            return render.show_audios(issue, audios)
+    def POST(self, path):
+        issue = web.ctx.site.get(path)
+        audios = get_files('music'+issue.key)
+        x = web.input(audio={}, overwrite=0)
+        file = '_'.join(x['audio'].filename.lstrip('/').split())#Replace space with underscore
+        if not file:
+            return render.show_audios(issue, audios, 'Please select a file to upload')
+        dir_path = os.path.join('static/music', x['issue.key'].lstrip('/')) #Path is a directory where we save particular file. 
+        file_path = os.path.join(dir_path, file.lstrip('/'))
+        filedata = x['audio'].value
+        if not os.path.isdir(dir_path):
+            os.makedirs(dir_path)
+        if not int(x['overwrite']) and os.path.isfile(file_path):
+            msg = "NOTE: File with this name already exists. Check overwrite and try again"
+            return render.show_audios(issue, audios, msg)
+        else:
+            f = open(file_path, 'w')
+            f.write(filedata)
+            f.close()
+            msg = "File is saved."
+            return web.seeother('/dashboard'+path+'/audio')
+
+class publishIssue(delegate.page):
+    def POST(self):
+        i = web.input(_method='post')
+        query = {
+            'key': i['issue.key'],
+            'published': {
+                'connect': 'update',
+                'value': True
+            }
+        }
+        web.ctx.site.write(query, comment='issue is published')
+        web.seeother('/dashboard')
+
+class addIssue(delegate.page):
+    def POST(self):
+        i = web.input(_method='post')
+        issue_key = make_issue_key(i['month'], i['year'])
+        issue_name = month_conversion(issue_key, te_months)
+        query={
+            'create': 'unless_exists', 
+            'key': issue_key,
+            'type': {'key': "/type/issue"},
+            'name': issue_name,
+            'published': False
+        }
+        web.ctx.site.write(query, comment='New issue is added')
+        web.seeother('/dashboard')
 
 # disable register
 del delegate.pages['/account/register']

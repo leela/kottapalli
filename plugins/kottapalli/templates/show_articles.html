@@ -1,0 +1,47 @@
+$def with (issue, articles)
+
+$var title: articles of $issue.name
+<div style="float: right;"><b><a href="/dashboard">dashboard</a></b></div><br/>
+<div style="float: left;"><b><a href="/dashboard${issue.key}/images">Images</a></b></div>
+<div style="float: right;"><b><a href="/dashboard${issue.key}/audio">Audio</a></b></div><br/>
+<div>issue: <a href="${issue.key}/welcome">$issue.name</a></div>
+
+<div>
+<table border='1'>
+<tr>
+<th>Article</th>
+<th>Category</th>
+<th>DateOfModified</th>
+</tr>
+
+$for article in articles:
+    <tr>
+        <td><a href="${article.key}">$article.title</a></td>
+        <td>${article.category.name}</td>
+        <td>$datestr(article.last_modified)</td>
+    </tr>
+</table>
+</div>
+<br/>
+<a onclick="\$('div#addarticle').toggle(); return false;" href="#"><b>కొత్తవ్యాసం  చేర్చండి</b></a>
+<div id="addarticle" name="addarticle" style="display: none;">
+<script type="text/javascript">
+    var changeLocation = function(f, issue){
+        var loc = document.location;
+	var host = loc.protocol+"//"+loc.host;
+	document.location = host+issue+"/"+f['article.name'].value+"?m=edit&redirect=/dashboard"+issue;
+	return; 
+    }
+</script>
+<form action="javascript: return;">
+<table>
+<tr>
+<td>article name</td>
+<td><input type="text" name="article.name"></input></td>
+</tr>
+<tr>
+<td><input type="button" value="addArticle" onclick="changeLocation(this.form, '${issue.key}')"></input></td>
+</tr>
+</table>
+</form>
+</div>

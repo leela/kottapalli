@@ -1,0 +1,59 @@
+$def with (issue, audios, msg='')
+
+$var title: Audios of $issue.name
+
+<div style="float: right;">issue: <a href="/dashboard${issue.key}">$issue.name</a></div><br/>
+<script type="text/javascript" src="/static/js/swfobject.js"></script>
+<div id="disp_audios" name="disp_audios">
+    $ path = 'music' + issue.key
+    $ audios = get_files(path)
+    <table>
+    $for i in audios:
+        <tr>
+        <td>
+        <a class="small" href="/static/${path}/${i}" target="_blank">${i}</a>
+        </td>
+        <td>
+        <div class="audio">
+            <span id="${i}"><a href="http://www.adobe.com/products/flashplayer/" target="_blank">Go and get Adobe Flash Player!</a></span>
+            <script type="text/javascript">
+                var so = new SWFObject("/static/js/mp3player.swf", "nazdravemp3_player", "300", "20", "8", "#FFFFFF");
+                so.addVariable("file", "/static/music${issue.key}/${i}");
+                so.write('${i}');
+            </script>
+        </div>
+        </td>
+        </tr>
+    </table>
+</div>
+<br/>
+<div id="add_audio" name="add_audio">
+<b>Upload audio: </b>
+<script type="text/javascript">
+    function validate(form){
+        if (form.audio.value == ""){
+           document.getElementById('msg').innerHTML = 'Please select a file to upload';
+            return false;
+            }
+    }
+</script>
+<form method="POST" action='' enctype="multipart/form-data" onsubmit="return validate(this)">
+    <div id="msg" style='color:#9FB5CA'><b>$msg</b></div><br/>
+    <table>
+        <tr>
+            <input type="hidden" value="${issue.key}" name="issue.key"></input>
+        </tr>
+        <tr>
+            <td>Audio:</td>
+            <td><input type="file" name="audio"/></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" name='overwrite' value="1"/></td>
+            <td>Overwrite if the file already exists</td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="addAudio"></td>
+        </tr>
+    </table>
+</form>
+</div>

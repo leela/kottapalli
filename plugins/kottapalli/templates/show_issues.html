@@ -1,0 +1,64 @@
+$def with (issues)
+
+$var title: dashboard
+<div>
+<table border='1'>
+<tr>
+<th>Issue</th>
+<th>Published</th>
+<th>DatePublished</th>
+</tr>
+$for issue in issues:
+    <tr>
+        <td><a href="/dashboard${issue.key}">$issue.name</a></td>
+        <td>$issue.published</td>
+        $if issue.published:
+            <td>$datestr(issue.last_modified)</td>
+            <td></td>
+        $else:
+            <td></td>
+            <td>
+                <form action="/publishIssue" method="post">
+                    <input type="hidden" value="${issue.key}" name="issue.key"></input>
+                    <input type="submit" value="publish"></input>
+                </form>
+            </td>
+    </tr>
+</table>
+</div>
+
+$if issues:
+    $ i = next_issue_my(issues[0].key)
+    $ month = i[0]
+    $ year = i[1]
+$else:
+    $ month = 1
+    $ year = ''
+
+<a onclick="\$('div#addissue').toggle(); return false;" href="#"><b>కొత్త సంచికను  చేర్చండి</b></a>
+<div name="addissue" id="addissue" style="display: none;">
+<form action="/addIssue" method=post>
+<table>
+<tr>
+    <td>Month</td>
+    <td>
+    <select name="month"> Month
+        $for m in range(1, 13):
+            $if m == month:
+                <option value="$m" selected>$m</option>
+            $else:
+                <option value="$m">$m</option>
+    </select>
+    </td>
+</tr>
+<tr>
+    <td>Year</td>
+    <td><input type="text" name="year" value='$year'></input></td>
+<tr>
+<tr>
+    <td><input type="submit" value="addIssue"></input><td>
+<tr>
+</table>
+</form>
+</div>
+<br/>

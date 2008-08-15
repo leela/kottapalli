@@ -1,0 +1,54 @@
+$def with (issue, images, msg='')
+
+$var title: images of $issue.name
+
+<div style="float: right;">issue: <a href="/dashboard${issue.key}">$issue.name</a></div><br/>
+<div id="disp_images" name="disp_images">
+    $ path = 'images' + issue.key
+    $ nimgs = 7
+    $ i = 0
+    <table>
+    <tr>
+    $for i in range(len(images)):
+        $if ((i + 1) % nimgs) == 0:
+            </tr><tr>
+        $else:
+            <td><a class="small" href="/static/${path}/${images[i]}" target="_blank"><img width="50" height="50" border="0" style="border: 1px solid rgb(204, 204, 204);" alt="${images[i]}" src="/static/${path}/${images[i]}"/></a>
+            <br/>
+            <a class="small" href="/static/${path}/${images[i]}" target="_blank">${images[i]}</a></td>
+    $if ((i + 1) % nimgs) != 0:
+        </tr>
+    </table>
+</div>
+
+<br/>
+<div id="add_image" name="add_image">
+<b>Upload image: </b>
+<script type="text/javascript">
+    function validate(form){
+        if (form.image.value == ""){
+           document.getElementById('msg').innerHTML = 'Please select a file to upload';
+            return false;
+            }
+    }
+</script>
+<form method="POST" action='' enctype="multipart/form-data" onsubmit="return validate(this)">
+    <div id="msg" style='color:#9FB5CA'><b>$msg</b></div><br/>
+    <table>
+        <tr>
+            <input type="hidden" value="${issue.key}" name="issue.key"></input>
+        </tr>
+        <tr>
+            <td>Image:</td>
+            <td><input type="file" name="image"/></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" name='overwrite' value="1"/></td>
+            <td>Overwrite if the file already exists</td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="addImage"></td>
+        </tr>
+    </table>
+</form>
+</div>

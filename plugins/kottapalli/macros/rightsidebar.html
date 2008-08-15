@@ -36,7 +36,26 @@ $ issues = get_issues()
  <div class="ads">
  $:macros.notes("")
  </div>
-<br/>
+
+$if ctx.user:
+    $ issues = get_issues(published=False)
+    <div class="menu">
+        <b>అప్రచురిత సంచికలు</b><br/>
+        <ul>
+        $for issue in issues:
+            <li><a href="$issue.key">$issue.name</a></li>
+         </ul>
+    </div>
+    <div class="menu">
+        <b>Manage</b>
+	<ul><li><a href="/dashboard">Dashboard</a></li></ul>
+    </div>
+
+$if not ctx.user:
+    <div class="menu">
+       <b>Admin</b><br/>
+        <a href="/account/login">Login</a>
+    </div>
  <div class="groupAnnounce">  
   <img src="http://groups.google.com/groups/img/3nb/groups_bar.gif"
          alt="Google Groups"><br/>
