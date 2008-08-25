@@ -1,0 +1,57 @@
+$def with (page)
+
+<style type="text/css">
+label {
+    float: left;
+    width: 4em;
+    font-weight: bold;
+}
+textarea {
+    width: 100%;
+}
+</style>
+
+$ _e = _.get_namespace('/mode/edit')
+$ _t = _.get_namespace('/type/page')
+
+$var title: $_e.edit_title(page.title)
+
+<form name="edit" method="post" action="">
+
+$:macros.TypeChanger(page.type)
+
+$ default_title = page.key.rsplit('/', 1)[-1].replace('_', ' ')
+
+<p>
+<label for="title">$_t.title</label> <input type="text" name="title" value="${page.title or default_title}" /><br />
+</p>
+
+<p>
+<label for="category">$_t.category</label> 
+$:Dropdown("category.key", get_categories(), value=page.category).render()
+</p>
+
+$ issue = page.key[slice(0, page.key.rindex('/'))]
+
+<input type="hidden" name="issue" value="$issue"/>
+
+<p>
+<strong>$_t.intro</strong><br/>
+<textarea name="intro" rows="15" cols="80">$page.intro</textarea>
+</p>
+
+<p>
+<strong>$_t.body</strong><br/>
+<textarea name="body" rows="15" cols="80">$page.body</textarea>
+</p>
+
+<p>$:_e.edit_summary<br />
+<input type="text" name="_comment" value="" />
+</p>
+
+<p>
+<input type="submit" name='_save' value="$_e.save" />
+<input type="submit" name='_preview' value="$_e.preview" />
+<input type="submit" name='_delete' value="$_e.delete" />
+</p>
+</form>

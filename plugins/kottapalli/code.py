@@ -34,6 +34,11 @@ def get_objects(type=None):
     return [site.get(key) for key in site.things({})]
 
 @public
+def get_categories():
+    cats = get_objects('/type/category')
+    return [(c.key, c.name) for c in cats]
+
+@public
 def get_issues(published=True):
     obj = get_objects('/type/issue')
     if published:
