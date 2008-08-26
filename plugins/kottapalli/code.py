@@ -327,8 +327,9 @@ class rename(delegate.mode):
         page = web.ctx.site.get(key)
 
         web.transact()
-        web.query("update thing set key=$i.key where id=$page.id", vars=locals())
-        web.query("update datum set value=$i.key where thing_id=$page.id and key='key' and datatype=1", vars=locals())
+	id = web.query('SELECT id FROM thing WHERE site_id=1 and key=$key', vars=locals())[0].id
+        web.query("update thing set key=$i.key where id=$id", vars=locals())
+        web.query("update datum set value=$i.key where thing_id=$id and key='key' and datatype=1", vars=locals())
         web.commit()
 
 # disable register
