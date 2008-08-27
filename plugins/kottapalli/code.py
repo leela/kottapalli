@@ -323,6 +323,22 @@ class addIssue(delegate.page):
         web.ctx.site.write(query, comment='New issue is added')
         web.seeother('/dashboard')
 
+class rename(delegate.mode):
+    @require_login
+    def GET(self, key):
+        page = web.ctx.site.get(key)
+        return render.rename(page)
+
+    @require_login
+    def POST(self, key):
+        i = web.input('key', _method='POST')
+        page = web.ctx.site.get(key)
+
+        web.transact()
+        web.query("update thing set key=$i.key where id=$page.id", vars=locals())
+        web.query("update datum set value=$i.key where thing_id=$page.id and key='key' and datatype=1", vars=locals())
+        web.commit()
+
 # disable register
 del delegate.pages['/account/register']
 
