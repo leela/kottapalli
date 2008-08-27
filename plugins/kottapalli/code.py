@@ -2,7 +2,7 @@ import web
 from infogami.utils import delegate, types
 from infogami.utils.storage import OrderedDict
 from infogami.utils.template import render
-from infogami.utils.view import public, thingview, thingrepr
+from infogami.utils.view import public, thingview, thingrepr, require_login
 from infogami import config
 from telugu_months import months as te_months
 import datetime
@@ -214,12 +214,14 @@ class comments(delegate.page):
 
 class issues_list(delegate.page):
     path = '/dashboard'
+    @require_login
     def GET(self):
         issues = get_objects('/type/issue')
         return render.show_issues(issues)
 
 class articles_list(delegate.page):
     path = '/dashboard(/\d{4}/\d{2})'
+    @require_login
     def GET(self, path):
         issue = web.ctx.site.get(path)
         if issue:
@@ -233,19 +235,22 @@ class articles_list(delegate.page):
 
 class images_list(delegate.page):
     path = '/dashboard(/\d{4}/\d{2})/images'
+    @require_login
     def GET(self, path):
             issue = web.ctx.site.get(path)
             images = get_files('images'+issue.key)
             return render.show_images(issue, images)
+    @require_login
     def POST(self, path):
         issue = web.ctx.site.get(path)
         images = get_files('images'+issue.key)
         x = web.input(image={}, overwrite=0)
-        file = '_'.join(x['image'].filename.lstrip('/').split())#Replace space with underscore
-        if not file:
+        if x['image'].filename:
+            filename = '_'.join(os.path.basename(x['image'].filename).split('\\')[-1].split())
+        else:
             return render.show_images(issue, images, 'Please select a file to upload')
         dir_path = os.path.join('static/images', x['issue.key'].lstrip('/')) #Path is a directory where we save particular file. 
-        file_path = os.path.join(dir_path, file.lstrip('/'))
+        file_path = os.path.join(dir_path, filename.lstrip('/'))
         filedata = x['image'].value
         if not os.path.isdir(dir_path):
             os.makedirs(dir_path)
@@ -261,19 +266,22 @@ class images_list(delegate.page):
 
 class audio_list(delegate.page):
     path = '/dashboard(/\d{4}/\d{2})/audio'
+    @require_login
     def GET(self, path):
             issue = web.ctx.site.get(path)
             audios = get_files('music'+issue.key)
             return render.show_audios(issue, audios)
+    @require_login
     def POST(self, path):
         issue = web.ctx.site.get(path)
         audios = get_files('music'+issue.key)
         x = web.input(audio={}, overwrite=0)
-        file = '_'.join(x['audio'].filename.lstrip('/').split())#Replace space with underscore
-        if not file:
+        if x['audio'].filename:
+            filename = '_'.join(os.path.basename(x['audio'].filename).split('\\')[-1].split())
+        else:
             return render.show_audios(issue, audios, 'Please select a file to upload')
         dir_path = os.path.join('static/music', x['issue.key'].lstrip('/')) #Path is a directory where we save particular file. 
-        file_path = os.path.join(dir_path, file.lstrip('/'))
+        file_path = os.path.join(dir_path, filename.lstrip('/'))
         filedata = x['audio'].value
         if not os.path.isdir(dir_path):
             os.makedirs(dir_path)
