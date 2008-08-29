@@ -334,11 +334,19 @@ class rename(delegate.mode):
         i = web.input('key', _method='POST')
         page = web.ctx.site.get(key)
 
+	assert ' ' not in i.key and i.key.startswith('/')
+
         web.transact()
 	id = web.query('SELECT id FROM thing WHERE site_id=1 and key=$key', vars=locals())[0].id
         web.query("update thing set key=$i.key where id=$id", vars=locals())
         web.query("update datum set value=$i.key where thing_id=$id and key='key' and datatype=1", vars=locals())
         web.commit()
+	from infogami.infobase.server import get_site
+	site = get_site(config.site)
+	site.thing_cache.clear()
+	site.things_cache.clear()
+	site.versions_cache.clear()
+	web.seeother(i.key)
 
 # disable register
 del delegate.pages['/account/register']
