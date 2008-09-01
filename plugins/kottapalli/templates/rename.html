@@ -1,6 +1,7 @@
 $def with (page)
 
 <form method="POST">
-New Path: <input type="text" name="key" value="$page.key"/> 
+$ key = page.key.rsplit('/', 1)[0] + '/' + page.title.replace(' ', '_')
+New Path: <input type="text" name="key" value="$key"/> 
 <input type="submit" name="_submit" value="Rename"/>
 </form>
