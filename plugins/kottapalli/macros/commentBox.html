@@ -1,0 +1,31 @@
+$def with (article)
+
+<h2 id="postcomment">
+<a onclick="\$('div#newComment').toggle(); return false;" href="#">వ్యాఖ్య రాయండి</a>
+</h2>
+<div id="newComment" style="display: none;">
+<form method="POST" name="edit" id="commentForm" action="/addComment">
+<table style="width: 100%;">
+<tr>
+<td><label for="author"><small>పేరు</small></label></td>
+<td><input type="text" id="input_author" name="author" value="" /></td>
+</tr>
+<tr>
+<td><label for = "website"><small>వెబ్సైటు</small></label></td>
+<td><input type="text" id="input_website" name="website" value="" /></td>
+</tr>
+<tr>
+<td><label for = "email"><small>ఈ-మెయిలు</small></label></td>
+<td><input type="text" id="input_email" name="email" value="" /></td>
+</tr>
+<tr>
+<td><label for="comment"><small>వ్యాఖ్య</small></label></p></td>
+<td><textarea name="comment" rows="5" id = "input_comment" style="width: 100%;"></textarea></td>
+</tr>
+
+<tr>
+    <td><INPUT TYPE=”text” name="article.key" value=$article.key style="position:absolute;top:100px;left:5px;visibility:hidden;"></td>
+</tr>
+</table>
+<input type="submit" name='_save' value="వ్యాఖ్య పంపించు" />
+</form>
