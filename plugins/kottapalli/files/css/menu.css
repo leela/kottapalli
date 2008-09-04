@@ -5,16 +5,17 @@
 clear : both;
 position : relative;
 margin-top : 10px;
+margin-bottom : 10px;
 }
 #menuh {
-float : left;
 width : 100%;
 font : 85% helvetica, "Trebuchet MS", arial, sans-serif;
 margin : 0;
 border-bottom : 0 solid #520934;
 color : #333;
-background : #a4a4a0;
+background : #C8C9CB;
 height: 25px;
+padding-bottom: 5px;
 }
 
 #menuh a {

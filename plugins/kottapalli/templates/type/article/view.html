@@ -8,9 +8,6 @@ $var title: $article.title
 </div>
 -->
 
-<script type="text/javascript" src="/static/js/transliterator/trans.js"></script>
-<script type="text/javascript" src="/static/js/transliterator/tetrans.js"></script>
-
 $if article.intro:
     <div class = "intro">$:format(article.intro)</div>
 
@@ -36,4 +33,4 @@ $for c in comments:
 <br/>
 $if article.issue.key == get_issues()[0].key:
     $:macros.commentBox(article)
-</div>
+

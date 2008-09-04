@@ -44,6 +44,13 @@
       if(commentAuthor){addTranslit(commentForm, commentAuthor);} 
       if(comment){addTranslit(commentForm, comment);}
    }
+   var searchForm = document.getElementById('cse-search-box');
+   if (searchForm != null){
+        var searchBox = document.getElementById('search_box')
+        if(searchBox){
+            addTranslit(searchForm, searchBox);
+        }
+    }
  }
  
  function processKeys(event)

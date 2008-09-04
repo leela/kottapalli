@@ -9,6 +9,8 @@ $def with (page)
 
 <title>$page.title (కొత్తపల్లి)</title>
 <script type="text/javascript" src="/static/js/jquery/jquery.js"></script>
+<script type="text/javascript" src="/static/js/transliterator/trans.js"></script>
+<script type="text/javascript" src="/static/js/transliterator/tetrans.js"></script>
 
 <link href="/static/css/pastel.css" rel="stylesheet" type="text/css" />
 <link href="/static/css/menu.css" rel="stylesheet" type="text/css" />
@@ -44,15 +46,15 @@ body{behavior:url(csshover.htc); font-size:75%;}
 <div id="container">
     $:macros.banner()    
     <!-- Begin CSS Horizontal Popout Menu -->
-    <div id="menuh-container">
 
-    <div id="menuh">
+    <div id="menuh-container">
+    <div id="menuh" style="padding-top: 5px; padding-bottom: 5px;">
         $:macros.headermenu()
     </div>
     </div>
-
+  
     <!-- End CSS Horizontal Popout Menu -->
-
+    
 <div id="sidebar">
     $:macros.leftsidebar()
 </div>
@@ -102,4 +104,4 @@ $:page
  </div>
 </div>
  </body>
-</head>
+

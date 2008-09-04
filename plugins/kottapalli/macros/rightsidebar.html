@@ -2,13 +2,10 @@ $def with ()
 
 $ issues = get_issues()
 
-<div id = "rightsidebar">
-
- <div class="menu">
-  <ul>
-<br/>
 <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&lang=te"></script>
-  </ul>
+
+<div id = "rightsidebar">
+ <div class="menu">
   <ul>
   <li><a href="/మా గురించి">మా గురించి</a></li>
   <li><a href="mailto:team@kottapalli.in">సంప్రదించండి</a></li>
@@ -36,36 +33,26 @@ $if ctx.user:
             <li><a href="$issue.key">$issue.name</a></li>
          </ul>
     </div>
-    <div class="menu">
-        <b>Manage</b>
-	<ul><li><a href="/dashboard">Dashboard</a></li></ul>
-    </div>
-
+    
 $if not ctx.user:
     <div class="menu">
        <b>Admin</b><br/>
         <a href="/account/login">Login</a>
     </div>
- <div class="groupAnnounce">  
-  <img src="http://groups.google.com/groups/img/3nb/groups_bar.gif"
-         alt="Google Groups"><br/>
 
- <table border=0 style="background-color: #D9E1E5; width: 100%;" cellspacing=0>
-  <tr><td>
-  </td></tr>
-  <tr><td style="padding-left: 5px">
-  <b>కొత్తపల్లి చాటింపు గుంపులో చేరండి</b>
-  </td></tr>
-    <tr><td style="padding-left: 5px;">
-  <form action="http://groups.google.com/group/kottapalli/boxsubscribe">
-    <ul><li>Email: <input type=text name=email style="width: 90%"></li>
-    <li><input id="submit_button" type=submit name="sub" value="చేరండి"></li></ul>
-  </form>
-    </td></tr>
-<tr><td align=right>
-  <a href="http://groups.google.com/group/kottapalli">ఈ గుంపును చూడండి</a>
-</td></tr>
-</table>
+<br/>
+<div class="groupAnnounce">
+    <img src="http://groups.google.com/groups/img/3nb/groups_bar.gif"
+         alt="Google Groups"><br/>
+    <b>కొత్తపల్లి చాటింపు గుంపులో చేరండి</b><br/>
+    <form action="http://groups.google.com/group/kottapalli/boxsubscribe">
+      <ul>
+        <li>Email: <input type=text name=email style="width: 90%"></li>
+        <li><input id="submit_button" type=submit name="sub" value="చేరండి"></li>
+      </ul>
+     </form>
+     <a href="http://groups.google.com/group/kottapalli">ఈ గుంపును చూడండి</a>
 </div>
+
 </div>
 </div>
