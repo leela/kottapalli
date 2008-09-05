@@ -1,0 +1,19 @@
+$def with (comments, site)
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+        <id>$site ;feed=atom</id>
+        <title>కొత్తపల్లి</title>
+        <link rel="alternate" type="text/html" href="$site"/>
+        <generator>infogami</generator>
+        <subtitle>తెలుగు పిల్లల (e)మాసపత్రిక</subtitle>
+        $if comments:
+            <updated>$comments[0].last_modified</updated>
+            $for c in comments:
+                <entry>
+                    <id>$site</id>
+                    <title>$c.article.title</title>
+                    <link rel="alternate" type="text/html" href="$site$c.article.key"/>
+                    <updated>$c.last_modified</updated>
+                    <summary type="html">$c.comment</summary>
+                </entry>
+</feed>

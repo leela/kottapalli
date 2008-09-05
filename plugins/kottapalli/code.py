@@ -63,6 +63,20 @@ def get_current_issue():
         return None
 
 @public
+def navigation():
+    import urllib
+    path = urllib.unquote(web.ctx.path)
+    thing = web.ctx.site.get(path)
+    if not thing:
+        return [('Home', '/')]
+    elif thing.type.key == '/type/article':
+        return [('Home', '/'), (thing.issue.name, thing.issue.key), (thing.title, thing.key)]
+    elif thing.type.key == '/type/issue':
+        return [('Home', '/'), (thing.name, thing.key)]
+    else:
+        return [('Home', '/')]
+
+@public
 def url_to_object(url):
     site = web.ctx.site
     return site.get(url)
@@ -91,7 +105,7 @@ def make_issue_key(month, year):
     
 @public
 def sortComments(seq):
-    return sorted(seq, key=lambda x:x['last_modified'])
+    return sorted(seq, key=lambda x:x['last_modified'], reverse=True)
 
 @public
 def date_format(timedate, type="rss"):
@@ -119,6 +133,13 @@ def get_files(path):
         return os.listdir(path)
     except OSError:
         return []
+
+def get_issue_comments(issue):
+    comments = []
+    for article in issue.articles:
+        comments.extend(article.comments)
+    return sortComments(comments)
+
 
 class addComment(delegate.page):
     def POST(self):
@@ -170,13 +191,6 @@ class upload(delegate.page):
             msg = "File is saved."
             return render.upload(msg, True)
 
-class feed(delegate.page):
-    def GET(self):
-        type = web.input().get('type', '')
-        if type == 'atom':
-            print render.atomfeed(web.ctx.home)
-        else:
-            print render.rssfeed(web.ctx.home)
 
 class search(delegate.page):
     def GET(self):
@@ -207,9 +221,7 @@ class comments(delegate.page):
     path = "(/\d{4}/\d{2})/comments"
     def GET(self, path):
         issue = web.ctx.site.get(path)
-        comments = []
-        for article in issue.articles:
-            comments.extend(article.comments)
+        comments = get_issue_comments(issue)
         return render.display_comments(issue, comments)
 
 class issues_list(delegate.page):
@@ -348,6 +360,23 @@ class rename(delegate.mode):
 	site.versions_cache.clear()
 	web.seeother(i.key)
 
+class feed(delegate.page):
+    def GET(self):
+        type = web.input().get('type', '')
+        if type == 'atom':
+            print render.atomfeed(web.ctx.home)
+        else:
+            print render.rssfeed(web.ctx.home)
+
+class commentsfeed(delegate.page):
+    path = "/comments/feed"
+    def GET(self):
+        type = web.input().get('type', '')
+        comments = get_objects('/type/comment')[:10]
+        if type == 'atom':
+            print render.comments_atom_feed(comments, web.ctx.home)
+        else:
+            print render.comments_rss_feed(comments, web.ctx.home)
+
 # disable register
 del delegate.pages['/account/register']
-
