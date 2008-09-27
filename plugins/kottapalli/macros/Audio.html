@@ -1,11 +1,13 @@
 $def with (filename)
 
+<div class="audio">
 <script type="text/javascript" src="/static/js/swfobject.js"></script>
 
 <span id="audio_player"><a href="http://www.adobe.com/products/flashplayer/" target="_blank">Go and get Adobe Flash Player!</a></span>
 $ issue = get_current_issue()
 
 $if issue:
+    $ music_dir = "/static/music" + issue.key + "/"
     $ path = "/static/music" + issue.key + "/" + filename
 $else:
     $ path = "/static/music/common/" + filename
@@ -20,3 +22,15 @@ $else:
 </script>
 <br/>
 <a href="$path.replace("/static/", "/download/")" rel="nofollow">Download this song</a>
+
+<div id="embedthis">
+<small>
+<a href="#" onclick="\$('div#embedAudio').toggle(); return false;"  style="text-align: center">embed this song</a>
+</small>
+</div>
+<div id="embedAudio" style="border: 1px gray; padding: 2px; background-color: rgb(221, 221, 221); display: none;">
+Now simply copy the code below and paste it into your webpage:
+<br/>
+<input id="embed" readonly="readonly" value='<embed id="kottapalli_$filename" width="300" height="20" flashvars="file=http://kottapalli.in$path" quality="high" bgcolor="#FFFFFF" name="nazdravemp3_player" style="" src="http://kottapalli.in/static/js/mp3player.swf" type="application/x-shockwave-flash"/>'></input>
+</div>
+</div>
