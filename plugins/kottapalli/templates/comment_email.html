@@ -1,4 +1,4 @@
-$def with (comment)
+$def with (comment, site)
 
 $var subject: Comment: $comment.article.title
 
@@ -7,6 +7,7 @@ New comment on article "$comment.article.title"
 Name: $comment.author
 Website: $comment.website
 E-mail: $comment.email
+Article Link: $site$comment.article.key
 
 $comment.comment
 

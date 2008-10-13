@@ -163,7 +163,7 @@ class addComment(delegate.page):
         web.ctx.site.write(query, comment='new comment')
 
         c = web.ctx.site.get(path)
-        msg = render.comment_email(c)
+        msg = render.comment_email(c, web.ctx.home)
         try:
             web.sendmail(config.from_address, config.comment_recipients, web.utf8(msg.subject).strip(), web.utf8(msg))
         except:
@@ -194,7 +194,7 @@ class upload(delegate.page):
 
 class search(delegate.page):
     def GET(self):
-        print render.site(render.searchResults(web.ctx.home))
+        return render.searchResults(web.ctx.home)
 
 class download(delegate.page):
     """Enable download of static files 
@@ -371,6 +371,7 @@ class feed(delegate.page):
 class commentsfeed(delegate.page):
     path = "/comments/feed"
     def GET(self):
+        mail_ids()
         type = web.input().get('type', '')
         comments = get_objects('/type/comment')[:10]
         if type == 'atom':
@@ -379,4 +380,4 @@ class commentsfeed(delegate.page):
             print render.comments_rss_feed(comments, web.ctx.home)
 
 # disable register
-del delegate.pages['/account/register']
+#del delegate.pages['/account/register']
