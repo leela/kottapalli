@@ -147,6 +147,10 @@ class addComment(delegate.page):
         i['type.key'] = '/type/comment'
         i['_comment'] = ''
         path = '/c/'+ str(get_random_string())
+
+        # prevent most common spam
+        if 'url' in  i['comment'] and 'link' in i['comment'] and 'http://' in i['comment']:
+            return web.seeother(i['article.key'])
            
         query = {
             'create': 'unless_exists', 
