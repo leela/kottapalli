@@ -18,7 +18,7 @@ b. Install webpy
     http://webpy.org/
 
 c. Get kottapalli
-   $  git clone ssh://jungle.futurelabs.in/git/kottapalli
+    $ git clone git://github.com/leela/kottapalli.git  
 
 d. create a soft link from infogami/infogami to kottapalli directory
 
