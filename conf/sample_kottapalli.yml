@@ -1,0 +1,18 @@
+
+db_parameters: 
+    engine: postgres
+    database: kottapalli
+    username: anand
+    password: 
+
+plugin_path:
+    - infogami.plugins
+    - plugins
+
+plugins:
+    - links
+    - wikitemplates
+    - i18n
+    - kottapalli
+    - api
+
