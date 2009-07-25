@@ -1,7 +1,7 @@
 #! /bin/bash
 # 
-# Download infogami and setup required links.
+# setup submodules
 # 
 
-hg clone http://infogami.org/src/infogami.new
-ln -s infogami.new/infogami infogami
+git submodule init
+git submodule update
