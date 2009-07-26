@@ -430,7 +430,7 @@ class sitemap(delegate.page):
         articles = web.ctx.site.things({'type': '/type/article', 'last_modified': None, 'sort': '-key', 'limit': 1000}, details=True)
         articles = [a for a in articles if a.key.rsplit('/', 1)[0] in issues]
         for a in articles:
-            a.last_modified = client.parse_datetime(a.last_modified.value)
+            a.last_modified = client.parse_datetime(a.last_modified.value).strftime('%Y-%m-%dT%H:%M:%SZ')
         
         out = render.sitemap(articles)
         raise web.ok(out)
