@@ -3,12 +3,6 @@ $def with (article)
 $var title: $article.title
 $var print: /2009/06/print?article=$article.key
 
-<!--
-<div style="text-align:right">
-    <a href="$article.issue.key">$article.issue.name</a>
-</div>
--->
-
 $if article.intro:
     <div class = "intro">$:format(article.intro)</div>
 
