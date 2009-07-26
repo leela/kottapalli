@@ -12,11 +12,13 @@ $ issues = get_issues(published=True)
 
   <b>సంచికలు</b><br/>
   <ul id="issues">
-  $for i in issues:
+  $for i in issues[:10]:
       $if i == get_current_issue():
           <li><b>$i.name</b></li>
       $else:
           <li><a href="${i.key}/welcome">$i.name</a></li>
+  $if len(issues) > 10:
+      <li><a href='/archives'>పాత సంచికలు</a></li>
   </ul>
  </div>
 

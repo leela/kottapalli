@@ -413,3 +413,8 @@ def list_pages(path, limit=100, offset=0, sort=None):
     q['limit'] = limit
     q['offset'] = offset
     return [web.ctx.site.get(key, lazy=True) for key in web.ctx.site.things(q)]
+
+class archives(delegate.page):
+    def GET(self):
+        issues = get_issues()
+        return render.archives(issues)
