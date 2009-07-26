@@ -1,10 +1,9 @@
 $def with ()
 
-$ issues = get_issues()
-
-<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&lang=te"></script>
+$ issues = get_issues(published=True)
 
 <div id = "rightsidebar">
+
  <div class="menu">
   <ul>
   <li><a href="/మా గురించి">మా గురించి</a></li>
@@ -19,6 +18,7 @@ $ issues = get_issues()
       $else:
           <li><a href="${i.key}/welcome">$i.name</a></li>
   </ul>
+ </div>
 
  <div class="ads">
  $:macros.notes("")
@@ -30,21 +30,24 @@ $if ctx.user:
         <b>అప్రచురిత సంచికలు</b><br/>
         <ul>
         $for issue in issues:
-            <li><a href="$issue.key">$issue.name</a></li>
+            <li><a href="/dashboard$issue.key">$issue.name</a></li>
          </ul>
     </div>
-    
+
 $if not ctx.user:
     <div class="menu">
        <b>Admin</b><br/>
         <a href="/account/login">Login</a>
     </div>
 
-<br/>
-<div class="groupAnnounce">
+<div class="menu">
+<b>Other</b><br/>
+<ul>
+<li><a href="#" onclick="\$('div#groupAnnounce').toggle(); return false;">
+కొత్తపల్లి చాటింపు గుంపులో చేరండి</a></li></ul>
+<div class="groupAnnounce" id="groupAnnounce" style="display: none;">
     <img src="http://groups.google.com/groups/img/3nb/groups_bar.gif"
          alt="Google Groups"><br/>
-    <b>కొత్తపల్లి చాటింపు గుంపులో చేరండి</b><br/>
     <form action="http://groups.google.com/group/kottapalli/boxsubscribe">
       <ul>
         <li>Email: <input type=text name=email style="width: 90%"></li>
@@ -53,6 +56,8 @@ $if not ctx.user:
      </form>
      <a href="http://groups.google.com/group/kottapalli">ఈ గుంపును చూడండి</a>
 </div>
+</div>
+</div>
 
-</div>
-</div>
+<a href="http://www4.clustrmaps.com/counter/maps.php?url=http://kottapalli.in" id="clustrMapsLink"><img style="width: 140px; " src="http://www4.clustrmaps.com/counter/index2.php?url=http://kottapalli.in" style="border:0px;" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onerror="this.onerror=null; this.src='http://www2.clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://www2.clustrmaps.com';" />
+</a>

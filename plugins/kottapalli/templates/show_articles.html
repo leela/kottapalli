@@ -1,14 +1,18 @@
 $def with (issue, articles)
 
 $var title: articles of $issue.name
-<div style="float: right;"><b><a href="/dashboard">dashboard</a></b></div><br/>
-<div style="float: left;"><b><a href="/dashboard${issue.key}/images">Images</a></b></div>
-<div style="float: right;"><b><a href="/dashboard${issue.key}/audio">Audio</a></b></div><br/>
-<div>issue: <a href="${issue.key}/welcome">$issue.name</a></div>
+<a href="/dashboard">dashboard</a> /
+$issue.name
+<br/>
+
+<a href="/dashboard${issue.key}/images">Images</a>
+<a href="/dashboard${issue.key}/audio">Audio</a>
+<br/>
+
 
 <div>
-<table border='1'>
-<tr>
+<table>
+<tr  class="header">
 <th>Article</th>
 <th>Category</th>
 <th>DateOfModified</th>
@@ -22,6 +26,8 @@ $for article in articles:
     </tr>
 </table>
 </div>
+
+
 <br/>
 <a onclick="\$('div#addarticle').toggle(); return false;" href="#"><b>కొత్తవ్యాసం  చేర్చండి</b></a>
 <div id="addarticle" name="addarticle" style="display: none;">

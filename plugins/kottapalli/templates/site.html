@@ -7,17 +7,23 @@ $def with (page)
 <meta name="keywords" value="కొత్తపల్లి, తెలుగు పిల్లల e-మాసపత్రిక, $page.title" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
+<meta name="verify-v1" content="kDwD0f2P1DxMRwCgqDNLtoHr8CAVjf0RwN6xPgwYv2w=" />
+
 <title>$page.title (కొత్తపల్లి)</title>
 <script type="text/javascript" src="/static/js/jquery/jquery.js"></script>
+
 <script type="text/javascript" src="/static/js/transliterator/trans.js"></script>
 <script type="text/javascript" src="/static/js/transliterator/tetrans.js"></script>
 
+
 <link href="/static/css/pastel.css" rel="stylesheet" type="text/css" />
 <link href="/static/css/menu.css" rel="stylesheet" type="text/css" />
-<link rel="alternate" type="application/rss+xml" title="కొత్తపల్లి rss ఫీడు" href="/feed?type=rss" feed=rss"/>
+<link rel="alternate" type="application/rss+xml" title="కొత్తపల్లి rss ఫీడు" href="/feed" feed=rss"/>
 <link rel="alternate" type="application/atom+xml" title="కొత్తపల్లి atom ఫీడు" href="/feed?type=atom" feed=atom/>
 <link rel="alternate" type="application/rss+xml" title="కొత్తపల్లి వ్యాఖ్యల rss ఫీడు" href="/comments/feed?type=rss" feed=rss"/>
 <link rel="alternate" type="application/atom+xml" title="కొత్తపల్లి వ్యాఖ్యల atom ఫీడు" href="/comments/feed?type=atom" feed=atom/>
+
+
 
 $for s in ctx.stylesheets:
     <link rel="stylesheet" type="text/css" href="$s">
@@ -49,15 +55,15 @@ body{behavior:url(csshover.htc); font-size:75%;}
 <div id="container">
     $:macros.banner()    
     <!-- Begin CSS Horizontal Popout Menu -->
-
     <div id="menuh-container">
+
     <div id="menuh" style="padding-top: 5px; padding-bottom: 5px;">
         $:macros.headermenu()
     </div>
     </div>
-  
+
     <!-- End CSS Horizontal Popout Menu -->
-    
+
 <div id="sidebar">
     $:macros.leftsidebar()
 </div>
@@ -67,6 +73,7 @@ body{behavior:url(csshover.htc); font-size:75%;}
 </div>
 
 <div id="content">
+    $:macros.Notice()
     <script>
         function change_font_size(size) {
             \$("#content").css("font-size", size);
@@ -81,13 +88,6 @@ body{behavior:url(csshover.htc); font-size:75%;}
         <a style="font-size: 18px" href="#" onclick="return change_font_size('18px');">అ</a>
         <a style="font-size: 20px" href="#" onclick="return change_font_size('20px');">అ</a>
         <a style="font-size: 22px" href="#" onclick="return change_font_size('22px');">అ</a>
-    </div>
-    <div id="navigation">
-       $ nav = navigation()
-       <div style="float: left; text-align: left;">
-        $for n in nav:
-            <a href="$n[1]">$n[0]</a> >>
-       </div>
     </div>
     <br/>
     <br/>
@@ -114,3 +114,4 @@ $:page
  </div>
 </div>
  </body>
+</head>

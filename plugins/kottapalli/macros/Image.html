@@ -3,19 +3,25 @@ $def with (name, float="right")
 <!-- close earlier p tag, if there is any. div is not allowed inside p -->
 </p>  
 
+$ is_print = changequery({}).endswith('/print') or (query_param("m", None) == "mode_print")
+
 $if float == "right":
     $ margin = "margin-left: 10px"
     $ width = "250px"
+    $if is_print:
+        $ width = "500px"
 $elif float == "left":
     $ margin = "margin-right: 10px"
     $ width = "250px"
 $elif float == "thumb":
-    $ margin = "margin-right: 10px"
+    $ margin = "margin: -2em 0pt"
     $ width = "40px"
     $ float = "right"
+    $if is_print:
+        $ width = "100px"
 $else:
-    $ margin = "margin: 10px 25px 10px 25px"
-    $ width = "500px"
+    $ margin = "margin: 10px 0px 10px 0px"
+    $ width = "100%"
 
 $ issue = get_current_issue()
 

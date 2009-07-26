@@ -7,6 +7,6 @@ $if not issue:
 
 $if issue:
     $ ym = issue.key.strip('/').split('/')
-    <div id="banner"><a href="/"><img class="logo" src="/static/images/${ym[0]}/${ym[1]}/banner.gif" width="900" alt="logo" title="logo" /></a></div>
+    <div id="banner"><img class="logo" src="/static/images/${ym[0]}/${ym[1]}/banner.gif" width="900" alt="logo" title="logo" /></div>
 $else:
-    <div id="banner"><a href="/"><img class="logo" src="/static/images/banner.gif" width="900" alt="logo" title="logo" /></a></div>
+    <div id="banner"><img class="logo" src="/static/images/banner.gif" width="900" alt="logo" title="logo" /></div>

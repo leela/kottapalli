@@ -7,6 +7,8 @@ $def with (issue)
             page-break-after: always; 
             width: 900px;
             clear: both;
+            font-size: 24pt;
+            text-align: justify;
         }
 
         h1 { 
@@ -25,20 +27,43 @@ $def with (issue)
        .body {
             clear: both;
        }
+       pre.song {
+           font-family: inherit;
+           font-weight: inherit;
+           font-style: inherit;
+           font-size: 100%;
+      }
     </style>
 
 </head>
 <body>
-    <img src="/static/images$issue.key/banner.gif"></img>
+$ article_key = query_param("article", None)
+
+$if article_key:
+     $for aa in issue.articles:
+         $if urf8(aa.key) == utf8(article_key):
+             $ a = aa
+    <div class="article">
+                <h1>$a.title</h1>
+                $if a.intro:
+                    <div class="intro">$:format(a.intro)</div>
+               <div class="body">$:format(a.body)</div>
+    </div>
+$else:
+    <img src="/static/images$issue.key/banner.gif" width="900px"></img>
     $ categories = categorize_articles(issue.articles)
     $for cat, articles in categories.items():
         $for a in articles:
-            $if a.key != issue.key + '/download':
+            $if a.key.lower() != issue.key + '/download':
                 <div class="article">
                     <h1>$a.title</h1>
                     $if a.intro:
                         <div class="intro">$:format(a.intro)</div>
                     <div class="body">$:format(a.body)</div>
+                    
+                    <!--
+                    <br style="clear:right;"/>
+                    -->
                 </div>
 </body>
 </html>

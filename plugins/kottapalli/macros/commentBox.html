@@ -1,10 +1,44 @@
 $def with (article)
 
+<script type='text/javascript'>
+function showMap()
+{
+var isIE = document.all?true:false;
+PositionX = 100;
+PositionY = 100;
+var AutoClose = true;
+var optNN='scrollbars=no,width='+500+',height='+500+',left='+PositionX+',top='+PositionY;
+var optIE='scrollbars=no,width=150,height=100,left='+PositionX+',top='+PositionY;
+
+if (isIE){imgWin=window.open('about:blank','',optIE);}
+else {imgWin=window.open('about:blank','',optNN);}
+
+with (imgWin.document){
+writeln('<html><head><title>Loading...</title><style>body{margin:0px;}</style>');writeln('<sc'+'ript>');
+writeln('var isNN,isIE;');writeln('if (parseInt(navigator.appVersion.charAt(0))>=4){');
+writeln('isNN=(navigator.appName=="Netscape")?1:0;');writeln('isIE=(navigator.appName.indexOf("Microsoft")!=-1)?1:0;}');
+writeln('function reSizeToImage(){');writeln('if (isIE){');writeln('window.resizeTo(100,100);');
+writeln('width=100-(document.body.clientWidth-document.images[0].width);');
+writeln('height=100-(document.body.clientHeight-document.images[0].height);');
+writeln('window.resizeTo(width,height);}');writeln('if (isNN){');
+writeln('window.innerWidth=document.images["KeyMap"].width;');writeln('window.innerHeight=document.images["KeyMap"].height;}}');
+writeln('function doTitle(){document.title="Keypad Map";}');writeln('</sc'+'ript>');
+if (!AutoClose) writeln('</head><body bgcolor=000000 scroll="no" onload="reSizeToImage();doTitle();self.focus()">')
+else writeln('</head><body bgcolor=000000 scroll="no" onload="reSizeToImage();doTitle();self.focus()" onblur="self.close()">');
+writeln("<img name='KeyMap' src='/static/images/telugu_keyboard.jpg' style='display:block'></body></html>");
+close();
+}}
+</script>
+
 <h2 id="postcomment">
 <a onclick="\$('div#newComment').toggle(); return false;" href="#">వ్యాఖ్య రాయండి</a>
 </h2>
 <div id="newComment" style="display: none;">
 <form method="POST" name="edit" id="commentForm" action="/addComment">
+<ul>
+<li>భాష మార్చుటకు Esc కీ నొక్కండి</li>
+<li><a href='javascript:showMap()'>తెలుగు కీ బోర్డు</a></li>
+</ul>
 <table style="width: 100%;">
 <tr>
 <td><label for="author"><small>పేరు</small></label></td>
@@ -29,3 +63,4 @@ $def with (article)
 </table>
 <input type="submit" name='_save' value="వ్యాఖ్య పంపించు" />
 </form>
+</div>

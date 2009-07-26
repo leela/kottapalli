@@ -1,8 +1,13 @@
 $def with (issue, images, msg='')
 
-$var title: images of $issue.name
+$var title: Images of $issue.name
 
-<div style="float: right;">issue: <a href="/dashboard${issue.key}">$issue.name</a></div><br/>
+<div>
+<a href="/dashboard">Dashboard</a> /
+<a href="/dashboard$issue.key">$issue.name</a> / 
+Images
+</div>
+
 <div id="disp_images" name="disp_images">
     $ path = 'images' + issue.key
     $ nimgs = 5

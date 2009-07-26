@@ -1,6 +1,7 @@
 $def with (article)
 
 $var title: $article.title
+$var print: /2009/06/print?article=$article.key
 
 <!--
 <div style="text-align:right">
@@ -11,17 +12,19 @@ $var title: $article.title
 $if article.intro:
     <div class = "intro">$:format(article.intro)</div>
 
-<p>$:format(article.body)</p>
+<p>
+$:format(article.body)
+</p>
 
 $ comments = sortComments(article.comments)
 
-<h2 id="comments">$:len(comments) వ్యాఖ్యలు 
+<h2 id="comments" style="clear: right;">$:len(comments) వ్యాఖ్యలు 
 </h2><hr/>
 
 <ol>
 $for c in comments:
     <li>
-        $c.comment
+        <p>$:format(c.comment)</p>  
         <p><cite>వ్రాసిన వారు: 
         $if c.website:
             <a href="$c.website">$c.author</a> 
@@ -31,6 +34,6 @@ $for c in comments:
     </li>
 </ol>
 <br/>
-$if article.issue.key == get_issues()[0].key:
-    $:macros.commentBox(article)
 
+
+$:macros.commentBox(article)

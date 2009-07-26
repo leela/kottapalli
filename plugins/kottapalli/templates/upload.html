@@ -1,4 +1,4 @@
-$def with (msg="", xpass=False)
+$def with (msg="", pass=False)
 
 $var title: Upload File
 <script type="text/javascript">
@@ -12,7 +12,7 @@ $var title: Upload File
 </head>
 <body>
     <form method="POST" enctype="multipart/form-data" action="" onsubmit="return validate(this)" >
-    $if xpass:
+    $if pass:
         $ msg_style = "style='color:green'"
     $else:
         $ msg_style = "style='color:red'"

@@ -18,7 +18,9 @@ $var title: $_e.edit_title(page.title)
 
 <form name="edit" method="post" action="">
 
+<div style="display: none">
 $:macros.TypeChanger(page.type)
+</div>
 
 $ default_title = page.key.rsplit('/', 1)[-1].replace('_', ' ')
 
@@ -27,8 +29,9 @@ $ default_title = page.key.rsplit('/', 1)[-1].replace('_', ' ')
 </p>
 
 <p>
+$ cat = page.category and page.category.key
 <label for="category">$_t.category</label> 
-$:Dropdown("category.key", get_categories(), value=page.category).render()
+$:Dropdown("category.key", get_categories(), value=cat).render()
 </p>
 
 $ issue = page.key[slice(0, page.key.rindex('/'))]
@@ -37,7 +40,7 @@ $ issue = page.key[slice(0, page.key.rindex('/'))]
 
 <p>
 <strong>$_t.intro</strong><br/>
-<textarea name="intro" rows="15" cols="80">$page.intro</textarea>
+<textarea name="intro" rows="5" cols="80">$page.intro</textarea>
 </p>
 
 <p>
