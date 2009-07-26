@@ -1,4 +1,5 @@
 import web
+import infogami
 from infogami.utils import delegate, types
 from infogami.utils.storage import OrderedDict
 from infogami.utils.template import render
@@ -391,10 +392,10 @@ class commentsfeed(delegate.page):
         type = web.input().get('type', '')
         comments = get_objects('/type/comment')[:10]
         if type == 'atom':
-            print render.comments_atom_feed(comments, web.ctx.home)
+            response = render.comments_atom_feed(comments, web.ctx.home)
         else:
-            print render.comments_rss_feed(comments, web.ctx.home)
-
+            response = render.comments_rss_feed(comments, web.ctx.home)
+        raise web.ok(render)
 
 @public
 def list_pages(path, limit=100, offset=0, sort=None):
@@ -418,3 +419,11 @@ class archives(delegate.page):
     def GET(self):
         issues = get_issues()
         return render.archives(issues)
+
+class sitemap(delegate.page):
+    path = '/sitemap.xml'
+    
+    def GET(self):
+        web.header('Content-Type', 'text/xml')
+        out = render.sitemap(get_issues())
+        raise web.ok(out)
