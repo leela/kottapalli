@@ -395,5 +395,21 @@ class commentsfeed(delegate.page):
         else:
             print render.comments_rss_feed(comments, web.ctx.home)
 
-# disable register
-#del delegate.pages['/account/register']
+
+@public
+def list_pages(path, limit=100, offset=0, sort=None):
+    """Lists all pages with name path/*.
+    This function overwrites the standard list_pages function.
+    """
+    q = {}
+    if path != '/':
+        q['key~'] = path + '/*'
+    
+    # don't show /type/delete and /type/redirect
+    q['a:type!='] = '/type/delete'
+    q['b:type!='] = '/type/redirect'
+    
+    q['sort'] = sort or 'key'
+    q['limit'] = limit
+    q['offset'] = offset
+    return [web.ctx.site.get(key, lazy=True) for key in web.ctx.site.things(q)]

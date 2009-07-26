@@ -7,6 +7,6 @@ $def with (c)
         $else: $c.author
         &#8212; $datestr(c.last_modified)</cite> </p>
 
-        <p>Article: <a href="$c.article.key">$c.article.title ($c.article.issue.name)</a></p>
+        <p>Article: <a href="$c.article.key">$c.article.title ($c.article.get_issue().name)</a></p>
         <a href="$c.key?m=edit">Edit</a>
 </div>
