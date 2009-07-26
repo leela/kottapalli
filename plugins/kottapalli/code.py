@@ -3,6 +3,7 @@ from infogami.utils import delegate, types
 from infogami.utils.storage import OrderedDict
 from infogami.utils.template import render
 from infogami.utils.view import public, thingview, thingrepr, require_login
+from infogami.infobase import client
 from infogami import config
 from telugu_months import months as te_months
 import datetime
@@ -12,6 +13,17 @@ import os
 
 types.register_type('^/[0-9][0-9][0-9][0-9]/[0-9][0-9]$',  '/type/issue')
 types.register_type('^/[0-9][0-9][0-9][0-9]/[0-9][0-9]/.*$',  '/type/article')
+
+class Article(client.Thing):    
+    def get_issue(self):
+        parent = self.key.rsplit('/', 1)[0]
+        return web.ctx.site.get(parent)
+    
+class Issue(client.Thing):
+    pass
+
+client.register_thing_class('/type/article', Article)
+client.register_thing_class('/type/issue', Issue)
 
 @public
 def getPlainText(text):
