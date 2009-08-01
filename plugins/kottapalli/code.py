@@ -224,7 +224,7 @@ class download(delegate.page):
         web.header("Content-Disposition", 'attachment; filename="%s"' % os.path.basename(path))
         if os.path.exists(path):
             data = open(path).read()
-            print data
+            raise web.ok(data)
         else:
             web.notfound()
 
@@ -232,7 +232,8 @@ class test_print(delegate.page):
     path = "(/\d{4}/\d{2})/print"
     def GET(self, path):
         issue = web.ctx.site.get(path)
-        print render.issue_print(issue)
+        out = render.issue_print(issue)
+        raise web.ok(out)
 
 class comments(delegate.page):
     path = "(/\d{4}/\d{2})/comments"
@@ -381,9 +382,10 @@ class feed(delegate.page):
     def GET(self):
         type = web.input().get('type', '')
         if type == 'atom':
-            print render.atomfeed(web.ctx.home)
+            out = render.atomfeed(web.ctx.home)
         else:
-            print render.rssfeed(web.ctx.home)
+            out = render.rssfeed(web.ctx.home)
+        raise web.ok(out)
 
 class commentsfeed(delegate.page):
     path = "/comments/feed"
