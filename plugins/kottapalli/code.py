@@ -166,7 +166,6 @@ class addComment(delegate.page):
             return web.seeother(i['article.key'])
            
         query = {
-            'create': 'unless_exists', 
             'key': path,
             'type': {'key': "/type/comment"},
             'article': {"key": i["article.key"]},
@@ -177,7 +176,7 @@ class addComment(delegate.page):
             'permission':  {'key': '/permission/restricted'} 
         }
 
-        web.ctx.site.write(query, comment='new comment')
+        web.ctx.site.save(query, comment='new comment')
 
         c = web.ctx.site.get(path)
         msg = render.comment_email(c, web.ctx.home)
