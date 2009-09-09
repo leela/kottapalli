@@ -20,7 +20,7 @@ $def with (article)
 </tr>
 <tr>
 <td><label for="comment"><small>వ్యాఖ్య</small></label></p></td>
-<td><textarea name="comment" rows="5" id = "input_comment" style="width: 100%;" quillpad="true"></textarea></td>
+<td><textarea name="comment" rows="5" id = "input_comment" style="width: 100%;" quillpad="true" ></textarea></td>
 </tr>
 
 <tr>
@@ -30,3 +30,16 @@ $def with (article)
 <input type="submit" name='_save' value="వ్యాఖ్య పంపించు" />
 </form>
 </div>
+
+<script>
+function setupCommentBox() {
+    \$('input', \$("div#newComment")).each(function() { 
+        \$(this).focus(); 
+    });
+    \$('div#newComment').toggle();
+}
+
+\$(document).ready(function () {
+    setTimeout("setupCommentBox();", 2000);
+})
+</script>
