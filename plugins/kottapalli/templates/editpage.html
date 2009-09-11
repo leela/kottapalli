@@ -2,6 +2,9 @@ $def with (page, preview=False)
 
 $ _ = i18n.get_namespace('/mode/edit')
 
+$ _x = ctx.setdefault("index", "noindex")
+$ _x = ctx.setdefault("follow", "nofollow")
+
 <div id="dateline">
     <a href="$url(m='view')" accesskey="v">$_.view</a>
     <a href="$url(m='history')" accesskey="h">$_.history</a>
