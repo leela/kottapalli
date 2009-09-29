@@ -1,0 +1,59 @@
+$def with (page, h)
+
+$ _ = i18n.get_namespace('/mode/history')
+
+$ _x = ctx.setdefault("index", "noindex")
+$ _x = ctx.setdefault("follow", "nofollow")
+
+$var title: $_.history
+
+<div id="dateline">
+    <a href="$url(m=None)" accesskey="v">$_.view</a>
+    <a href="$url(m='edit')" accesskey="e">$_.edit</a>
+</div>
+
+<form>
+<table>
+<tr>
+  <th>#</th>
+  <th></th>
+  <th></th>
+  <th></th>
+  <th>$_.who</th>
+  <th>$_.what</th>
+  <th>$_.when</th>
+</tr>
+$for v in h:
+    <tr>
+      <td>$v.revision</td>
+      <td><input type="radio" id="a$v.revision" name="a" value="$v.revision"></td>
+      <td><input type="radio" id="b$v.revision" name="b" value="$v.revision"></td>
+      <td><a href="$url(m='edit', v=v.revision)">$_.edit</a></td>
+      $if v.author:
+          <td class="history"><a href="$homepath()$v.author.key">$v.author.displayname</a></td>
+      $else:
+          <td class="history">$v.ip</td>
+      <td>$v.comment</td>
+      <td><a href="$url(v=v.revision)">$datestr(v.created)</a></td>
+      <td>
+    </tr>
+</table>
+<input type="hidden" name='m' value="diff"/>
+<input type="submit" value="$_.compare"/>
+</form>
+
+<script>
+
+var a = document.getElementById("a${h[0].revision - 1}");
+var a2 = document.getElementById("a$h[0].revision");
+var b = document.getElementById("b$h[0].revision");
+
+if (a) 
+    a.checked = true;
+else
+    a2.checked = true;
+
+b.checked = true;
+
+</script>
+

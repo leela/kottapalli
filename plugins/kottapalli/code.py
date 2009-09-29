@@ -1,4 +1,5 @@
 import web
+import infogami
 from infogami.utils import delegate, types
 from infogami.utils.storage import OrderedDict
 from infogami.utils.template import render
@@ -165,7 +166,6 @@ class addComment(delegate.page):
             return web.seeother(i['article.key'])
            
         query = {
-            'create': 'unless_exists', 
             'key': path,
             'type': {'key': "/type/comment"},
             'article': {"key": i["article.key"]},
@@ -176,7 +176,7 @@ class addComment(delegate.page):
             'permission':  {'key': '/permission/restricted'} 
         }
 
-        web.ctx.site.write(query, comment='new comment')
+        web.ctx.site.save(query, comment='new comment')
 
         c = web.ctx.site.get(path)
         msg = render.comment_email(c, web.ctx.home)
@@ -223,7 +223,7 @@ class download(delegate.page):
         web.header("Content-Disposition", 'attachment; filename="%s"' % os.path.basename(path))
         if os.path.exists(path):
             data = open(path).read()
-            print data
+            raise web.ok(data)
         else:
             web.notfound()
 
@@ -231,7 +231,8 @@ class test_print(delegate.page):
     path = "(/\d{4}/\d{2})/print"
     def GET(self, path):
         issue = web.ctx.site.get(path)
-        print render.issue_print(issue)
+        out = render.issue_print(issue)
+        raise web.ok(out)
 
 class comments(delegate.page):
     path = "(/\d{4}/\d{2})/comments"
@@ -380,9 +381,10 @@ class feed(delegate.page):
     def GET(self):
         type = web.input().get('type', '')
         if type == 'atom':
-            print render.atomfeed(web.ctx.home)
+            out = render.atomfeed(web.ctx.home)
         else:
-            print render.rssfeed(web.ctx.home)
+            out = render.rssfeed(web.ctx.home)
+        raise web.ok(out)
 
 class commentsfeed(delegate.page):
     path = "/comments/feed"
@@ -391,10 +393,10 @@ class commentsfeed(delegate.page):
         type = web.input().get('type', '')
         comments = get_objects('/type/comment')[:10]
         if type == 'atom':
-            print render.comments_atom_feed(comments, web.ctx.home)
+            response = render.comments_atom_feed(comments, web.ctx.home)
         else:
-            print render.comments_rss_feed(comments, web.ctx.home)
-
+            response = render.comments_rss_feed(comments, web.ctx.home)
+        raise web.ok(render)
 
 @public
 def list_pages(path, limit=100, offset=0, sort=None):
@@ -418,3 +420,18 @@ class archives(delegate.page):
     def GET(self):
         issues = get_issues()
         return render.archives(issues)
+
+class sitemap(delegate.page):
+    path = '/sitemap.xml'
+    
+    def GET(self):
+        web.header('Content-Type', 'text/xml')
+    
+        issues = web.ctx.site.things({'type': '/type/issue', 'published': True, 'sort': '-key', 'limit': 1000})
+        articles = web.ctx.site.things({'type': '/type/article', 'last_modified': None, 'sort': '-key', 'limit': 1000}, details=True)
+        articles = [a for a in articles if a.key.rsplit('/', 1)[0] in issues]
+        for a in articles:
+            a.last_modified = client.parse_datetime(a.last_modified.value).strftime('%Y-%m-%dT%H:%M:%SZ')
+        
+        out = render.sitemap(articles)
+        raise web.ok(out)

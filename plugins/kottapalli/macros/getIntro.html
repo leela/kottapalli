@@ -1,7 +1,7 @@
 $def with (article)
 
 $if (utf8(article.category.key) == utf8("/category/పాటలు")) or (not article.intro):
-    <p>$:getPlainText(string_slice(article.body, 100))...</p>
+    <p>$:getPlainText(string_slice(utf8(article.body), 100))...</p>
     <p>$article.intro</p>
 $else:
     <p>$article.intro</p>

@@ -1,0 +1,12 @@
+$def with (articles)
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>http://kottapalli.in/</loc>
+    </url>
+    $for a in articles:
+        <url>
+            <loc>http://kottapalli.in$a.key</loc>
+            <lastmod>$a.last_modified</lastmod>
+        </url>
+</urlset> 
