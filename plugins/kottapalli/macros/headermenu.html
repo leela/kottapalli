@@ -1,7 +1,11 @@
 $def with ()
 
 <div>
-    <div style="float: left; text-align: left; font-size: 12px">నిర్వహణ: <a  style="color: #5982AA;" href="http://timbaktu.org">టింబక్టు కలెక్టివ్</a>, చెన్నేకొత్తపల్లి</div>
+    <div style="float: left; text-align: left; font-size: 12px">
+	$ issue = get_current_issue() 
+	$if issue: 
+		$issue.name    
+</div>
     <div style="float: right; text-align: right; height: 100%">$:macros.searchBox()</div>
 
           <div style="margin:0 auto;width:300px; text-align: center; font-size: 14px;">సుస్వాగతం</div>

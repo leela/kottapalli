@@ -2,6 +2,9 @@
 
 #set -x - It prints log
 
+dir_name=`echo kottapalli$1|tr '/' '_'`
+echo $dir_name
+
 mkdir kottapalli #It create kottapalli directory to store all articles
 issues=`python get_issues.py $*`
 python scraper.py $issues
@@ -19,5 +22,6 @@ for i in $issues
     cp  $STATIC/images$i/* kottapalli/static/images$i/
     done
 
-zip -r kottapalli kottapalli
-rm -rf kottapalli
+mv kottapalli $dir_name
+zip -r $dir_name $dir_name
+rm -rf $dir_name

@@ -30,6 +30,7 @@ def save(path, subUrl):
 	data = get_page(path)
 	data = convert_links(data, subUrl)
 	fileName = urls[path]
+        print [fileName], [fileName.lstrip('/')]
 	f = open(os.path.join("kottapalli/", fileName.lstrip('/')), 'w')
 	f.write(data)
 	f.close()
@@ -39,7 +40,10 @@ def convert_links(data, subUrl):
 	soup = BeautifulSoup(data)
 	for a in soup.findAll('a'):
 		if re.match(subUrl, a['href']) or a['href'] == '/':
-		    a['href'] = urls[a['href']]
+                    try:
+    	                a['href'] = urls[a['href']]
+                    except:
+                        pass
 	return str(soup).replace('/static/', 'static/')
 
 urls = {}
@@ -51,14 +55,15 @@ def should_save(u):
 
 def save_url(url):
 	if url == '/':
-		urls[url] = "index.html"
+            urls[url] = "index.html"
 	else:    
-		urls[url] = trans.itrans_string(url.lstrip('/').replace('/', '_'), trans.dicToUnicode(telugu)) + ".html"
+            urls[url] = trans.itrans_string(url.lstrip('/').replace('/', '_'), trans.dicToUnicode(telugu)) + ".html"
 
 def get_issue(subUrl):
 	links = get_urls(get_page(subUrl), subUrl)
 	for u in links:
-		save_url(u)
+            print [u]
+            save_url(u)
 	for u in set(links):
             if should_save(u):
 		save(u, '/\d{4}/\d{2}')
